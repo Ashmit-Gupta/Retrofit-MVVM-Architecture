@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
 
+    //used dependency injection
     private const val BASE_URL = "https://quotable.io/"
     fun getInstance():Retrofit{
         val gson = GsonBuilder()

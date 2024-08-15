@@ -5,8 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ashmit.retrofitmvvm.data.api.QuoteService
 import com.ashmit.retrofitmvvm.data.model.QuoteList
+import javax.inject.Inject
 
-class QuoteRepository(private val quoteService: QuoteService) {
+class QuoteRepository @Inject constructor(private val quoteService: QuoteService) {
     private val quotesLiveData = MutableLiveData<QuoteList>()
     val quotes :LiveData<QuoteList>
         get() {

@@ -2,6 +2,7 @@ package com.ashmit.retrofitmvvm.ui
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ashmit.retrofitmvvm.R
@@ -13,9 +14,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+
+    //todo : caching strategies
     private lateinit var binding: ActivityMainBinding
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,5 +35,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e("ERROR", "Failed to load quotes.")
             }
         }
+
+
     }
 }

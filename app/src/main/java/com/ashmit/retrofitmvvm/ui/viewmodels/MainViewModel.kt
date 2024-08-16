@@ -18,6 +18,7 @@ class MainViewModel @Inject constructor(private val repository: QuoteRepository)
             repository.getQuote(1)
         }
     }
+
     val quotes :LiveData<QuoteList>
         get() {
             return repository.quotes

@@ -1,12 +1,15 @@
 package com.ashmit.retrofitmvvm.di
 
+import android.content.Context
+import androidx.room.Room
 import com.ashmit.retrofitmvvm.data.api.QuoteService
+import com.ashmit.retrofitmvvm.data.db.QuoteDb
 import com.ashmit.retrofitmvvm.data.repository.QuoteRepository
-import com.ashmit.retrofitmvvm.ui.viewmodels.MainViewModel
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,19 +46,28 @@ object DependencyInjector {
     @Provides
     @Singleton
     fun provideQuoteService(retrofit: Retrofit):QuoteService{
-        return retrofit.create(QuoteService::class.java) // here we are connecting the retorfit with the service class and the Retrofit will automatically generate the code for the interface methods based on the annotations we provided.
+        return retrofit.create(QuoteService::class.java) // here we are connecting the retrofit with the service class and the Retrofit will automatically generate the code for the interface methods based on the annotations we provided.
     }
 
     @Provides
     @Singleton
-    fun provideRepository(quoteService: QuoteService):QuoteRepository{
-        return QuoteRepository(quoteService)
+    fun provideDatabase(@ApplicationContext context : Context) : QuoteDb {
+        return Room.databaseBuilder(context.applicationContext , QuoteDb::class.java, "quote_db")
+            .build()
     }
 
     @Provides
-    fun provideMainViewModel(repository: QuoteRepository) : MainViewModel {
-        return MainViewModel(repository)
+    fun provideContext(@ApplicationContext context :Context):Context{
+        return context
     }
+
+
+    @Provides
+    @Singleton
+    fun provideRepository(quoteService: QuoteService , quoteDb :QuoteDb , context :Context):QuoteRepository{
+        return QuoteRepository(quoteService , quoteDb.quoteDao() , context)
+    }
+
 }
 /*Simplified Explanation:
 

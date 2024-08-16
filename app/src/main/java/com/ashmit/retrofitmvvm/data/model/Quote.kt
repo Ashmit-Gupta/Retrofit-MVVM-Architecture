@@ -1,6 +1,13 @@
 package com.ashmit.retrofitmvvm.data.model
 
-data class Result(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "quote")
+data class Quote(
+    @PrimaryKey(autoGenerate = true)
+    val quoteId: Int = 0,
     val _id: String,
     val author: String,
     val authorSlug: String,
@@ -8,5 +15,4 @@ data class Result(
     val dateAdded: String,
     val dateModified: String,
     val length: Int,
-    val tags: List<String>
 )
